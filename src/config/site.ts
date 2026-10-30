@@ -8,19 +8,19 @@
 
 export const site = {
   brand: 'Kobido Studio', // TODO: nazwa gabinetu
-  owner: 'Anna Nowak', // TODO: imię i nazwisko masażystki
-  ownerFirstName: 'Anna', // TODO
+  owner: 'Agnieszka Kozłowska',
+  ownerFirstName: 'Agnieszka',
   tagline: 'Japoński lifting twarzy bez skalpela',
   description:
     'Masaż Kobido — tradycyjny japoński masaż twarzy, który naturalnie liftinguje, odpręża i przywraca skórze blask.',
-  city: 'Katowice', // TODO
+  city: 'Sosnowiec',
 
   contact: {
     phone: '+48 600 000 000', // TODO: numer wyświetlany
     phoneHref: '+48600000000', // TODO: ten sam numer bez spacji (do linku tel:)
     email: 'kontakt@kobido-studio.pl', // TODO
-    address: 'ul. Przykładowa 1/2, 40-000 Katowice', // TODO
-    mapQuery: 'Katowice, Rynek', // TODO: adres do mapy Google (tekst wyszukiwania)
+    address: 'ul. Szkolna 4/28, 41-200 Sosnowiec',
+    mapQuery: 'Szkolna 4, 41-200 Sosnowiec', // tekst wyszukiwania dla mapy Google (bez nr lokalu)
     hours: [
       { days: 'Poniedziałek – Piątek', time: '10:00 – 19:00' },
       { days: 'Sobota', time: '9:00 – 14:00' },
@@ -40,7 +40,8 @@ export const site = {
    * https://calendar.google.com/calendar/appointments/schedules/AcZssZ...?gv=true
    * Pusty string = strona rezerwacji pokazuje fallback (telefon).
    */
-  bookingUrl: '',
+  bookingUrl:
+    'https://calendar.google.com/calendar/appointments/schedules/AcZssZ21OmqNsOgt0igEbX8UfOo2Zi5ECjRS3vlhpHfdE9bciaQEVlPmJzakHA518AaHkqBgNEClC-JS?gv=true',
 
   nav: [
     { label: 'Strona główna', href: '/' },
@@ -83,17 +84,14 @@ export const services: Service[] = [
 
 export type Certificate = {
   title: string;
-  issuer: string;
-  year: string;
+  issuer?: string;
+  year?: string;
   image?: string; // np. '/images/certyfikaty/kobido.jpg'
 };
 
-// TODO: prawdziwe certyfikaty
+// TODO: uzupełnić wystawcę (issuer), rok (year) i skan (image) certyfikatu
 export const certificates: Certificate[] = [
-  { title: 'Masaż Kobido — poziom zaawansowany', issuer: 'Nazwa szkoły / akademii', year: '2023' },
-  { title: 'Masaż twarzy Kobido — poziom podstawowy', issuer: 'Nazwa szkoły / akademii', year: '2022' },
-  { title: 'Masaż klasyczny', issuer: 'Nazwa szkoły / akademii', year: '2021' },
-  { title: 'Drenaż limfatyczny twarzy', issuer: 'Nazwa szkoły / akademii', year: '2022' },
+  { title: 'Kurs Japońskiego Masażu Twarzy' },
 ];
 
 // TODO: prawdziwe opinie klientek (tylko za ich zgodą)
