@@ -10,22 +10,20 @@ export const site = {
   brand: 'Kobido Studio', // TODO: nazwa gabinetu
   owner: 'Agnieszka Kozłowska',
   ownerFirstName: 'Agnieszka',
+  ownerPhoto: '/images/agnieszka.jpg', // used as hero + portrait until real studio photos exist
   tagline: 'Japoński lifting twarzy bez skalpela',
   description:
     'Masaż Kobido — tradycyjny japoński masaż twarzy, który naturalnie liftinguje, odpręża i przywraca skórze blask.',
   city: 'Sosnowiec',
 
   contact: {
-    phone: '+48 706 460 550',
-    phoneHref: '+48706460550', // ten sam numer bez spacji (do linku tel:)
+    phone: '+48 796 460 550',
+    phoneHref: '+48796460550', // ten sam numer bez spacji (do linku tel:)
     email: 'agnessiq@gmail.com',
     address: 'ul. Szkolna 4/28, 41-200 Sosnowiec',
     mapQuery: 'Szkolna 4, 41-200 Sosnowiec', // tekst wyszukiwania dla mapy Google (bez nr lokalu)
-    hours: [
-      { days: 'Poniedziałek – Piątek', time: '10:00 – 19:00' },
-      { days: 'Sobota', time: '9:00 – 14:00' },
-      { days: 'Niedziela', time: 'nieczynne' },
-    ],
+    // TODO: weekend — not decided yet
+    hours: [{ days: 'Poniedziałek – Piątek', time: '9:00 – 21:00' }],
   },
 
   social: {
@@ -72,6 +70,17 @@ export const services: Service[] = [
     description:
       'Pełny rytuał Kobido: twarz, szyja i dekolt. Naturalny lifting, rozluźnienie napięć i promienna cera — już po pierwszej wizycie.',
   },
+];
+
+/**
+ * YouTube Shorts shown in the "Jak wygląda Kobido" section on the homepage.
+ * Third-party demo videos for now — replace with Agnieszka's own clips when available.
+ * id = the part after youtube.com/shorts/
+ */
+export const videos = [
+  { id: 'fyJyrg9TvmU', title: 'Kobido — lifting i relaks', author: 'Face Concept' },
+  { id: '3ewqtzzoW8Q', title: 'Japoński masaż twarzy Kobido', author: 'KOBIDO JAPAN' },
+  { id: 'fu_bAOGd5Bc', title: 'Kobido w gabinecie', author: 'Asia ASMR' },
 ];
 
 export type Certificate = {

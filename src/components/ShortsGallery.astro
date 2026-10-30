@@ -1,0 +1,122 @@
+---
+/**
+ * Vertical YouTube Shorts with a click-to-play facade:
+ * only a thumbnail loads until the visitor clicks, then the youtube-nocookie
+ * player is injected. Faster page + no YouTube cookies before interaction (RODO).
+ * Videos are configured in `videos` in src/config/site.ts.
+ */
+import { videos } from '../config/site';
+---
+
+<div class="shorts">
+  {videos.map((v) => (
+    <figure class="short">
+      <div class="short__frame">
+        <button class="short__facade" data-yt={v.id} aria-label={`Odtwórz film: ${v.title}`}>
+          <img
+            src={`https://i.ytimg.com/vi/${v.id}/oardefault.jpg`}
+            alt=""
+            loading="lazy"
+            width="1080"
+            height="1920"
+          />
+          <span class="short__play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" /></svg>
+          </span>
+        </button>
+      </div>
+      <figcaption>
+        <span class="short__title">{v.title}</span>
+        <span class="short__author">wideo: {v.author} · YouTube</span>
+      </figcaption>
+    </figure>
+  ))}
+</div>
+
+<style>
+  .shorts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 300px));
+    justify-content: center;
+    gap: 28px;
+  }
+  .short { margin: 0; }
+  .short__frame {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    padding: 0;
+    border: 0;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #e9e0d4;
+    box-shadow: 0 18px 40px -24px rgba(43, 38, 34, 0.45);
+  }
+  .short__facade { position: absolute; inset: 0; padding: 0; border: 0; background: none; cursor: pointer; }
+  .short__frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85);
+    transition: transform 0.6s ease, filter 0.6s ease;
+  }
+  .short__facade:hover img { transform: scale(1.04); filter: saturate(1); }
+  .short__frame :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  .short__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(250, 247, 242, 0.88);
+    color: var(--accent);
+    backdrop-filter: blur(4px);
+    transition: transform 0.25s ease;
+  }
+  .short__facade:hover .short__play { transform: scale(1.08); }
+
+  figcaption { padding: 14px 4px 0; text-align: center; }
+  .short__title { display: block; font-family: var(--font-serif); font-size: 1.25rem; }
+  .short__author { font-size: 0.75rem; letter-spacing: 0.08em; color: var(--text-muted); }
+
+  /* Mobile: swipeable row */
+  @media (max-width: 860px) {
+    .shorts {
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: 72%;
+      justify-content: start;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 16px;
+      margin-inline: -20px;
+      padding: 0 20px 12px;
+      scrollbar-width: none;
+    }
+    .shorts::-webkit-scrollbar { display: none; }
+    .short { scroll-snap-align: center; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.short__facade[data-yt]').forEach((btn) => {
+    btn.addEventListener(
+      'click',
+      () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0&playsinline=1`;
+        iframe.title = btn.getAttribute('aria-label') ?? 'Film';
+        iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        iframe.allowFullscreen = true;
+        btn.replaceWith(iframe);
+      },
+      { once: true }
+    );
+  });
+</script>

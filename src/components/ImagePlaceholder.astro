@@ -1,20 +1,45 @@
 ---
-// Temporary stand-in for photos. Replace with <img src={url('/images/...')} alt="..." /> once real photos exist.
+/**
+ * Photo slot. With `src` renders the image (cropped to `ratio`);
+ * without it renders a striped placeholder box with `label`.
+ */
+import { url } from '../utils/url';
+
 interface Props {
   label?: string;
   ratio?: string; // CSS aspect-ratio, e.g. "4 / 5"
+  src?: string; // path under public/, e.g. '/images/agnieszka.jpg'
+  alt?: string;
+  position?: string; // CSS object-position, e.g. "50% 30%"
 }
-const { label = 'Miejsce na zdjęcie', ratio = '4 / 5' } = Astro.props;
+const { label = 'Miejsce na zdjęcie', ratio = '4 / 5', src, alt = '', position = 'center' } = Astro.props;
 ---
 
-<div class="ph" style={`aspect-ratio: ${ratio}`} role="img" aria-label={label}>
-  <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
-    <path fill="none" stroke="currentColor" stroke-width="1.2" d="M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M15.5 9.5a1.5 1.5 0 1 0 0-.01" />
-  </svg>
-  <span>{label}</span>
-</div>
+{src ? (
+  <img
+    class="photo"
+    src={url(src)}
+    alt={alt}
+    loading="lazy"
+    style={`aspect-ratio: ${ratio}; object-position: ${position}`}
+  />
+) : (
+  <div class="ph" style={`aspect-ratio: ${ratio}`} role="img" aria-label={label}>
+    <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+      <path fill="none" stroke="currentColor" stroke-width="1.2" d="M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M15.5 9.5a1.5 1.5 0 1 0 0-.01" />
+    </svg>
+    <span>{label}</span>
+  </div>
+)}
 
 <style>
+  .photo {
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--radius);
+    /* warm tint so B&W / cool photos sit nicely on the beige palette */
+    filter: sepia(0.18) contrast(0.96);
+  }
   .ph {
     width: 100%;
     display: flex;
