@@ -45,7 +45,7 @@ src/
     ImagePlaceholder.astro  photo slot: pass `src` for a real image (warm-tinted), omit for striped placeholder
   pages/
     index.astro          Strona główna (hero, czym jest Kobido, kroki, cennik #oferta, o mnie teaser, opinie)
-    o-mnie.astro         About the therapist: bio, stats, values, certyfikaty, gabinet gallery
+    o-mnie.astro         About the therapist: bio, motif marquee, values, certyfikaty
     rezerwacja.astro     Booking (BookingEmbed + practical info)
     kontakt.astro        Phone, email, address, hours, map
     polityka-prywatnosci.astro  RODO placeholder — must be filled in before production
@@ -63,6 +63,7 @@ public/
 - One service only for now: "Masaż liftingujący Kobido", 60 min, 150 zł.
 - No invented numbers (years of experience, treatment counts) — client found them "scammy".
   Use decorative elements (MotifMarquee) instead of stats.
+- No studio (gabinet) photos on the site — client's explicit decision.
 - Owner's portrait `public/images/agnieszka.jpg` (750×750, B&W) is a temporary photo used in hero + portraits.
 - Shorts on the homepage are third-party demo videos (credited in captions) — swap for her own clips later.
 

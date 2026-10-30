@@ -1,14 +1,15 @@
 ---
 import { site } from '../config/site';
 import { url } from '../utils/url';
-interface Props { title?: string; text?: string }
+interface Props { title?: string; text?: string; alt?: boolean }
 const {
+  alt = true,
   title = 'Podaruj sobie chwilę dla siebie',
   text = 'Wybierz dogodny termin online lub zadzwoń — chętnie odpowiem na pytania.',
 } = Astro.props;
 ---
 
-<section class="section section--alt">
+<section class:list={['section', alt ? 'section--alt' : 'cta--bordered']}>
   <div class="container center narrow">
     <h2>{title}</h2>
     <p class="muted">{text}</p>
@@ -18,3 +19,7 @@ const {
     </div>
   </div>
 </section>
+
+<style>
+  .cta--bordered { border-top: 1px solid var(--line); }
+</style>

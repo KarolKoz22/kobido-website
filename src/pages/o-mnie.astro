@@ -87,21 +87,7 @@ const values = [
     </div>
   </section>
 
-  <!-- GABINET -->
-  <section class="section">
-    <div class="container">
-      <SectionHeading eyebrow="Gabinet" title="Tu się spotkamy">
-        <p>{site.contact.address}</p>
-      </SectionHeading>
-      <div class="gallery">
-        <ImagePlaceholder label="Gabinet — zdjęcie 1" ratio="1 / 1" />
-        <ImagePlaceholder label="Gabinet — zdjęcie 2" ratio="1 / 1" />
-        <ImagePlaceholder label="Gabinet — zdjęcie 3" ratio="1 / 1" />
-      </div>
-    </div>
-  </section>
-
-  <CtaBand title="Zapraszam na wizytę" />
+  <CtaBand title="Zapraszam na wizytę" alt={false} />
 </BaseLayout>
 
 <style>
@@ -124,5 +110,4 @@ const values = [
   .cert__body h3 { font-size: 1.25rem; }
   .cert__year { font-size: 0.75rem; letter-spacing: 0.18em; color: var(--accent); }
 
-  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
 </style>

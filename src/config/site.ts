@@ -22,8 +22,11 @@ export const site = {
     email: 'agnessiq@gmail.com',
     address: 'ul. Szkolna 4/28, 41-200 Sosnowiec',
     mapQuery: 'Szkolna 4, 41-200 Sosnowiec', // tekst wyszukiwania dla mapy Google (bez nr lokalu)
-    // TODO: weekend — not decided yet
-    hours: [{ days: 'Poniedziałek – Piątek', time: '9:00 – 21:00' }],
+    // TODO: niedziela — not decided yet
+    hours: [
+      { days: 'Poniedziałek – Piątek', time: '9:00 – 21:00' },
+      { days: 'Sobota', time: '9:00 – 14:00' },
+    ],
   },
 
   social: {
