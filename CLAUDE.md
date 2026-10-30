@@ -38,7 +38,9 @@ src/
     SectionHeading.astro eyebrow + h2 + optional slot text
     ServiceCard.astro    pricing card (featured variant)
     CtaBand.astro        "book now" band used at page bottoms
-    BookingEmbed.astro   Google Calendar iframe, or phone fallback when bookingUrl is empty
+    BookingEmbed.astro   booking card + button to Google booking page (bookingMode 'link'),
+                         or Google iframe ('embed'), or phone fallback when bookingUrl is empty
+    MotifMarquee.astro   animated strip of line icons + words (used on /o-mnie instead of stats)
     ImagePlaceholder.astro  striped placeholder box — replace with <img> when photos arrive
   pages/
     index.astro          Strona główna (hero, czym jest Kobido, kroki, cennik #oferta, o mnie teaser, opinie)
@@ -55,6 +57,12 @@ public/
 .github/workflows/deploy.yml  GitHub Pages deploy on push to main
 ```
 
+## Content decisions (from client)
+- Owner: Agnieszka Kozłowska, studio at ul. Szkolna 4/28, 41-200 Sosnowiec.
+- One service only for now: "Masaż liftingujący Kobido", 60 min, 150 zł.
+- No invented numbers (years of experience, treatment counts) — client found them "scammy".
+  Use decorative elements (MotifMarquee) instead of stats.
+
 ## Conventions
 - **All user-facing text is Polish.** Code, comments and this file in English.
 - **Internal links/assets must use `url('/path')`** from `src/utils/url.ts` — the dev site is served
@@ -67,7 +75,9 @@ public/
 - New page = new file in `src/pages/`, wrap in `<BaseLayout title="...">`, add to `site.nav` if needed.
 
 ## Rezerwacje / Google Calendar
-Booking uses **Google Calendar Appointment Schedules** — no backend, no API keys. Bookings appear
+Booking uses **Google Calendar Appointment Schedules** — no backend, no API keys.
+Current mode is `bookingMode: 'link'`: the client rejected the inline iframe look (Google styling/footer),
+so we show our own styled card and open Google's booking page in a new tab. Bookings appear
 automatically in the therapist's Google Calendar; the client gets an email confirmation and a
 cancel link from Google.
 

@@ -1,33 +1,58 @@
 ---
 /**
- * Google Calendar Appointment Schedule embed.
- * Bookings made here land directly in the owner's Google Calendar and
- * the client gets an email confirmation from Google. No backend required.
- * Set `bookingUrl` in src/config/site.ts — see CLAUDE.md for setup.
+ * Booking via Google Calendar Appointment Schedule.
+ * Bookings land directly in the owner's Google Calendar and the client
+ * gets an email confirmation from Google. No backend required.
+ *
+ * site.bookingMode:
+ *   'link'  — our own styled card; button opens Google's booking page in a new tab
+ *   'embed' — Google's calendar inlined as an iframe (Google look & footer)
+ * Empty site.bookingUrl → phone-only fallback. Setup: see CLAUDE.md.
  */
-import { site } from '../config/site';
+import { site, services } from '../config/site';
+
 const hasBooking = site.bookingUrl.length > 0;
+// Full-page booking view looks better without the embed flag.
+const bookingPageUrl = site.bookingUrl.replace(/[?&]gv=true/, '');
+const service = services[0];
 ---
 
-{hasBooking ? (
-  <div class="booking">
-    <iframe
-      src={site.bookingUrl}
-      title="Kalendarz rezerwacji"
-      loading="lazy"
-      frameborder="0"
-    ></iframe>
-  </div>
-) : (
+{!hasBooking ? (
   <div class="booking booking--empty card">
     <span class="eyebrow">Wkrótce</span>
     <h3>Tutaj pojawi się kalendarz rezerwacji</h3>
-    <p class="muted">
-      Kalendarz połączony z Google Calendar — wolne terminy będą widoczne na żywo,
-      a każda rezerwacja automatycznie trafi do kalendarza.
-    </p>
-    <p>Do tego czasu zapraszam do rezerwacji telefonicznej:</p>
+    <p class="muted">Do tego czasu zapraszam do rezerwacji telefonicznej:</p>
     <a href={`tel:${site.contact.phoneHref}`} class="btn">{site.contact.phone}</a>
+  </div>
+) : site.bookingMode === 'embed' ? (
+  <div class="booking">
+    <iframe src={site.bookingUrl} title="Kalendarz rezerwacji" loading="lazy"></iframe>
+  </div>
+) : (
+  <div class="booking booking--card">
+    <div class="booking__service">
+      <span class="eyebrow">Zabieg</span>
+      <h3>{service.name}</h3>
+      <dl class="booking__facts">
+        <div><dt>Czas</dt><dd>{service.duration}</dd></div>
+        <div><dt>Cena</dt><dd>{service.price}</dd></div>
+        <div><dt>Miejsce</dt><dd>{site.contact.address}</dd></div>
+      </dl>
+    </div>
+
+    <div class="booking__action">
+      <ol class="booking__steps">
+        <li>Kliknij „Wybierz termin” — otworzy się kalendarz z wolnymi godzinami.</li>
+        <li>Wybierz dzień i godzinę, podaj imię, e-mail i telefon.</li>
+        <li>Potwierdzenie dostaniesz od razu na maila.</li>
+      </ol>
+      <a href={bookingPageUrl} target="_blank" rel="noopener" class="btn booking__btn">
+        Wybierz termin
+      </a>
+      <p class="booking__alt muted">
+        lub zadzwoń: <a href={`tel:${site.contact.phoneHref}`}>{site.contact.phone}</a>
+      </p>
+    </div>
   </div>
 )}
 
@@ -35,5 +60,21 @@ const hasBooking = site.bookingUrl.length > 0;
   .booking { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
   .booking iframe { display: block; width: 100%; height: 760px; border: 0; }
   .booking--empty { text-align: center; padding: clamp(40px, 8vw, 80px) 24px; }
-  .booking--empty p { max-width: 520px; margin-inline: auto; }
+
+  .booking--card { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+  .booking__service,
+  .booking__action { padding: clamp(28px, 5vw, 48px); }
+  .booking__service { background: var(--bg-alt); }
+  .booking__service h3 { font-size: 2rem; margin-bottom: 1.2em; }
+  .booking__facts { margin: 0; display: grid; gap: 14px; }
+  .booking__facts div { display: grid; grid-template-columns: 90px 1fr; gap: 12px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .booking__facts dt { font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); padding-top: 3px; }
+  .booking__facts dd { margin: 0; }
+
+  .booking__action { display: flex; flex-direction: column; justify-content: center; }
+  .booking__steps { margin: 0 0 28px; padding-left: 1.2em; color: var(--text-muted); }
+  .booking__steps li { margin-bottom: 0.6em; padding-left: 0.3em; }
+  .booking__steps li::marker { font-family: var(--font-serif); color: var(--accent); }
+  .booking__btn { width: 100%; padding-block: 18px; }
+  .booking__alt { text-align: center; margin: 14px 0 0; font-size: 0.95rem; }
 </style>

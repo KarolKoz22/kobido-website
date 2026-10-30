@@ -16,9 +16,9 @@ export const site = {
   city: 'Sosnowiec',
 
   contact: {
-    phone: '+48 600 000 000', // TODO: numer wyświetlany
-    phoneHref: '+48600000000', // TODO: ten sam numer bez spacji (do linku tel:)
-    email: 'kontakt@kobido-studio.pl', // TODO
+    phone: '+48 706 460 550',
+    phoneHref: '+48706460550', // ten sam numer bez spacji (do linku tel:)
+    email: 'agnessiq@gmail.com',
     address: 'ul. Szkolna 4/28, 41-200 Sosnowiec',
     mapQuery: 'Szkolna 4, 41-200 Sosnowiec', // tekst wyszukiwania dla mapy Google (bez nr lokalu)
     hours: [
@@ -42,6 +42,11 @@ export const site = {
    */
   bookingUrl:
     'https://calendar.google.com/calendar/appointments/schedules/AcZssZ21OmqNsOgt0igEbX8UfOo2Zi5ECjRS3vlhpHfdE9bciaQEVlPmJzakHA518AaHkqBgNEClC-JS?gv=true',
+  /**
+   * 'link'  = our own styled card + button that opens Google's booking page (default, cleaner look)
+   * 'embed' = Google's calendar inlined as an iframe (Google styling + Google footer)
+   */
+  bookingMode: 'link' as 'link' | 'embed',
 
   nav: [
     { label: 'Strona główna', href: '/' },
@@ -59,26 +64,13 @@ export type Service = {
   featured?: boolean;
 };
 
-// TODO: prawdziwy cennik
 export const services: Service[] = [
   {
-    name: 'Kobido — masaż klasyczny',
+    name: 'Masaż liftingujący Kobido',
     duration: '60 min',
-    price: '220 zł',
-    description: 'Pełny rytuał Kobido: twarz, szyja i dekolt. Idealny na pierwszą wizytę.',
-  },
-  {
-    name: 'Kobido z maską',
-    duration: '90 min',
-    price: '290 zł',
-    description: 'Masaż Kobido połączony z odżywczą maską dobraną do potrzeb skóry.',
-    featured: true,
-  },
-  {
-    name: 'Pakiet 5 zabiegów',
-    duration: '5 × 60 min',
-    price: '990 zł',
-    description: 'Seria zalecana dla trwałego efektu liftingu. Wizyty co 7–10 dni.',
+    price: '150 zł',
+    description:
+      'Pełny rytuał Kobido: twarz, szyja i dekolt. Naturalny lifting, rozluźnienie napięć i promienna cera — już po pierwszej wizycie.',
   },
 ];
 

@@ -5,7 +5,7 @@ import BookingEmbed from '../components/BookingEmbed.astro';
 import { site } from '../config/site';
 
 const info = [
-  { title: 'Przed wizytą', text: 'Przyjdź najlepiej bez makijażu. Zarezerwuj ok. 10 minut na krótki wywiad.' },
+  { title: 'Przed wizytą', text: 'Ubierz się luźno, z łatwym dostępem do szyi i dekoltu. Makijaż zmyję przed zabiegiem. Zabierz dobry humor!' },
   { title: 'Odwołanie wizyty', text: 'Prosimy o odwołanie wizyty najpóźniej 24 h wcześniej — link znajdziesz w mailu z potwierdzeniem.' },
   { title: 'Przeciwwskazania', text: 'M.in. stany zapalne skóry, świeże zabiegi medycyny estetycznej, gorączka. W razie wątpliwości — zadzwoń.' },
 ];
@@ -16,7 +16,7 @@ const info = [
     <div class="container">
       <SectionHeading eyebrow="Rezerwacja" title="Wybierz dogodny termin">
         <p>
-          Zaznacz wolny termin w kalendarzu — potwierdzenie otrzymasz mailem.
+          Rezerwacja zajmuje minutę — potwierdzenie otrzymasz mailem.
           Wolisz porozmawiać? Zadzwoń: <a href={`tel:${site.contact.phoneHref}`}>{site.contact.phone}</a>
         </p>
       </SectionHeading>

@@ -3,19 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import ImagePlaceholder from '../components/ImagePlaceholder.astro';
 import CtaBand from '../components/CtaBand.astro';
+import MotifMarquee from '../components/MotifMarquee.astro';
 import { site, certificates } from '../config/site';
 import { url } from '../utils/url';
-
-// TODO: prawdziwe liczby
-const stats = [
-  { value: '5+', label: 'lat doświadczenia' },
-  { value: '1000+', label: 'wykonanych zabiegów' },
-];
 
 const values = [
   { title: 'Indywidualne podejście', text: 'Każdy zabieg dopasowuję do potrzeb i kondycji Twojej skóry.' },
   { title: 'Spokój i uważność', text: 'Bez pośpiechu. Godzina, w której liczysz się tylko Ty.' },
-  { title: 'Ciągły rozwój', text: 'Regularnie doskonalę techniki na szkoleniach w Polsce i za granicą.' },
+  { title: 'Pasja, nie rutyna', text: 'Robię to, co kocham — i wierzę, że czujesz to w każdym ruchu dłoni.' },
 ];
 ---
 
@@ -29,31 +24,28 @@ const values = [
         <h1>{site.owner}</h1>
         <p class="lead">Certyfikowana terapeutka masażu Kobido</p>
         <p class="muted">
-          [Miejsce na Twoją historię.] Opowiedz, jak zaczęła się Twoja przygoda z masażem — co Cię
-          do niego przyciągnęło, gdzie się uczyłaś i dlaczego wybrałaś właśnie Kobido.
+          Od zawsze wierzyłam, że dbanie o siebie to nie luksus, tylko codzienny gest czułości
+          wobec samej siebie. Pielęgnacja, chwila ciszy, dobry masaż — to były moje małe rytuały,
+          zanim jeszcze wiedziałam, że zamienię je w swoją drogę.
         </p>
         <p class="muted">
-          [Drugi akapit.] Co sprawia Ci największą radość w tej pracy? Jak wygląda Twoje podejście
-          do klientek? Klientki lubią czuć, że wiedzą, do kogo przychodzą.
+          Moją wielką fascynacją stała się Japonia — jej filozofia równowagi, szacunek do ciała
+          i przekonanie, że piękno płynie z harmonii, a nie z pośpiechu. Kiedy poznałam Kobido,
+          nazywane „cesarskim masażem twarzy”, poczułam, że to właśnie to: technika, w której
+          tradycja spotyka się z naturalnym liftingiem, a relaks z widocznym efektem.
         </p>
         <p class="muted">
-          [Trzeci akapit — opcjonalnie.] Coś osobistego: pasje, wartości, cytat, który Cię prowadzi.
+          Dziś w moim gabinecie w Sosnowcu dzielę się tym rytuałem z Tobą. Każda wizyta to godzina,
+          w której nic nie musisz — wystarczy, że się położysz, odetchniesz i pozwolisz sobie
+          na chwilę tylko dla siebie.
         </p>
+        <p class="quote">„Piękno zaczyna się w chwili, gdy zaczynasz o siebie dbać.”</p>
       </div>
     </div>
   </section>
 
-  <!-- LICZBY -->
-  <section class="section--alt stats">
-    <div class="container stats__grid">
-      {stats.map((s) => (
-        <div>
-          <span class="stats__value">{s.value}</span>
-          <span class="stats__label">{s.label}</span>
-        </div>
-      ))}
-    </div>
-  </section>
+  <!-- MOTYWY (animowany pasek) -->
+  <MotifMarquee />
 
   <!-- WARTOŚCI -->
   <section class="section">
@@ -115,10 +107,10 @@ const values = [
 <style>
   .lead { font-family: var(--font-serif); font-size: 1.5rem; font-style: italic; color: var(--accent); margin-bottom: 1.4em; }
 
-  .stats { padding-block: 56px; }
-  .stats__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px; text-align: center; }
-  .stats__value { display: block; font-family: var(--font-serif); font-size: 3.2rem; line-height: 1; color: var(--accent); }
-  .stats__label { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+  .quote {
+    font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; color: var(--text);
+    border-left: 2px solid var(--accent); padding-left: 18px; margin-top: 1.6em;
+  }
 
   .value { border-top: 1px solid var(--line); padding-top: 24px; }
 
