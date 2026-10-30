@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+---
+
+<BaseLayout title="Polityka prywatności">
+  <section class="section">
+    <div class="container narrow prose">
+      <span class="eyebrow">Dokumenty</span>
+      <h1>Polityka prywatności</h1>
+      <p class="muted">
+        [SZABLON — do uzupełnienia przed startem produkcyjnym. Treść powinna zostać przygotowana
+        zgodnie z RODO, najlepiej skonsultowana z prawnikiem.]
+      </p>
+      <h2>1. Administrator danych</h2>
+      <p>Administratorem danych osobowych jest {site.owner}, prowadząca działalność pod nazwą {site.brand}, {site.contact.address}.</p>
+      <h2>2. Zakres i cel przetwarzania</h2>
+      <p>Dane (imię, nazwisko, e-mail, telefon) przetwarzamy wyłącznie w celu rezerwacji i realizacji wizyty oraz kontaktu z klientem.</p>
+      <h2>3. Rezerwacje online</h2>
+      <p>System rezerwacji obsługiwany jest przez Google Calendar (Google Ireland Ltd.). Podczas rezerwacji dane przekazywane są do Google zgodnie z polityką prywatności Google.</p>
+      <h2>4. Prawa osoby, której dane dotyczą</h2>
+      <p>Masz prawo do dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania oraz wniesienia skargi do Prezesa UODO.</p>
+      <h2>5. Kontakt</h2>
+      <p>W sprawach danych osobowych: {site.contact.email}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose h2 { font-size: 1.6rem; margin-top: 1.8em; }
+</style>

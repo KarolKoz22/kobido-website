@@ -1,0 +1,49 @@
+---
+import { site } from '../config/site';
+import { url } from '../utils/url';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <p class="footer__brand">{site.brand}</p>
+      <p class="muted">{site.tagline}</p>
+    </div>
+    <div>
+      <p class="footer__label">Kontakt</p>
+      <p>
+        <a href={`tel:${site.contact.phoneHref}`}>{site.contact.phone}</a><br />
+        <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a><br />
+        <span class="muted">{site.contact.address}</span>
+      </p>
+    </div>
+    <div>
+      <p class="footer__label">Na skróty</p>
+      <p>
+        <a href={url('/rezerwacja')}>Rezerwacja</a><br />
+        <a href={site.social.instagram} target="_blank" rel="noopener">Instagram</a><br />
+        <a href={site.social.facebook} target="_blank" rel="noopener">Facebook</a>
+      </p>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <span>© {year} {site.brand}</span>
+    <a href={url('/polityka-prywatnosci')}>Polityka prywatności</a>
+  </div>
+</footer>
+
+<style>
+  .footer { border-top: 1px solid var(--line); padding-top: 64px; font-size: 0.95rem; }
+  .footer a { text-decoration: none; }
+  .footer a:hover { color: var(--accent); }
+  .footer__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+  .footer__brand { font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 0.3em; }
+  .footer__label { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8em; }
+  .footer__bottom {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    margin-top: 48px; padding-block: 24px; border-top: 1px solid var(--line);
+    font-size: 0.85rem; color: var(--text-muted);
+  }
+  @media (max-width: 860px) { .footer { padding-bottom: 72px; } }
+</style>

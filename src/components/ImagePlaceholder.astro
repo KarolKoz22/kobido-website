@@ -1,0 +1,36 @@
+---
+// Temporary stand-in for photos. Replace with <img src={url('/images/...')} alt="..." /> once real photos exist.
+interface Props {
+  label?: string;
+  ratio?: string; // CSS aspect-ratio, e.g. "4 / 5"
+}
+const { label = 'Miejsce na zdjęcie', ratio = '4 / 5' } = Astro.props;
+---
+
+<div class="ph" style={`aspect-ratio: ${ratio}`} role="img" aria-label={label}>
+  <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+    <path fill="none" stroke="currentColor" stroke-width="1.2" d="M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M15.5 9.5a1.5 1.5 0 1 0 0-.01" />
+  </svg>
+  <span>{label}</span>
+</div>
+
+<style>
+  .ph {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background:
+      repeating-linear-gradient(135deg, transparent 0 14px, rgba(138, 106, 82, 0.05) 14px 15px),
+      #e9e0d4;
+    color: var(--accent);
+    border-radius: var(--radius);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 16px;
+  }
+</style>

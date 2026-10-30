@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { site } from '../config/site';
+import { url } from '../utils/url';
+
+// Keyless Google Maps embed — just a search query, no API key needed.
+const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(site.contact.mapQuery)}&z=15&output=embed`;
+---
+
+<BaseLayout title="Kontakt" description={`Kontakt i dojazd — ${site.brand}, ${site.city}.`}>
+  <section class="section">
+    <div class="container">
+      <SectionHeading eyebrow="Kontakt" title="Porozmawiajmy">
+        <p>Masz pytanie o zabieg albo chcesz umówić wizytę? Zadzwoń lub napisz.</p>
+      </SectionHeading>
+
+      <div class="grid grid--2 contact">
+        <div>
+          <div class="contact__item">
+            <span class="eyebrow">Telefon</span>
+            <a href={`tel:${site.contact.phoneHref}`} class="contact__big">{site.contact.phone}</a>
+          </div>
+          <div class="contact__item">
+            <span class="eyebrow">E-mail</span>
+            <a href={`mailto:${site.contact.email}`} class="contact__big">{site.contact.email}</a>
+          </div>
+          <div class="contact__item">
+            <span class="eyebrow">Adres</span>
+            <p>{site.contact.address}</p>
+          </div>
+          <div class="contact__item">
+            <span class="eyebrow">Godziny otwarcia</span>
+            <dl class="hours">
+              {site.contact.hours.map((h) => (
+                <>
+                  <dt>{h.days}</dt>
+                  <dd>{h.time}</dd>
+                </>
+              ))}
+            </dl>
+          </div>
+          <div class="btn-row">
+            <a href={url('/rezerwacja')} class="btn">Zarezerwuj online</a>
+            <a href={site.social.instagram} target="_blank" rel="noopener" class="btn btn--ghost">Instagram</a>
+          </div>
+        </div>
+
+        <div class="map">
+          <iframe src={mapSrc} title="Mapa dojazdu" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact { align-items: stretch; }
+  .contact__item { margin-bottom: 28px; }
+  .contact__item .eyebrow { display: block; margin-bottom: 0.3rem; }
+  .contact__item p { margin: 0; }
+  .contact__big { font-family: var(--font-serif); font-size: 1.8rem; text-decoration: none; word-break: break-word; }
+  .contact__big:hover { color: var(--accent); }
+  .hours { display: grid; grid-template-columns: auto 1fr; gap: 4px 24px; margin: 0; }
+  .hours dd { margin: 0; color: var(--text-muted); }
+  .map { min-height: 420px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .map iframe { width: 100%; height: 100%; min-height: 420px; border: 0; filter: grayscale(0.4); }
+</style>

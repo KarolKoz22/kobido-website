@@ -1,0 +1,20 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  center?: boolean;
+}
+const { eyebrow, title, center = true } = Astro.props;
+---
+
+<div class:list={['sh', { center }]}>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <h2>{title}</h2>
+  <slot />
+</div>
+
+<style>
+  .sh { margin-bottom: clamp(36px, 6vw, 64px); }
+  .sh.center { max-width: 640px; margin-inline: auto; }
+  .sh :global(p) { color: var(--text-muted); }
+</style>

@@ -1,0 +1,28 @@
+---
+import type { Service } from '../config/site';
+import { url } from '../utils/url';
+interface Props { service: Service }
+const { service } = Astro.props;
+---
+
+<article class:list={['card', 'service', { 'service--featured': service.featured }]}>
+  {service.featured && <span class="service__badge">Najczęściej wybierany</span>}
+  <h3>{service.name}</h3>
+  <p class="service__meta">{service.duration}</p>
+  <p class="muted">{service.description}</p>
+  <p class="service__price">{service.price}</p>
+  <a href={url('/rezerwacja')} class:list={['btn', { 'btn--ghost': !service.featured }]}>Zarezerwuj</a>
+</article>
+
+<style>
+  .service { position: relative; display: flex; flex-direction: column; text-align: center; }
+  .service .muted { flex: 1; }
+  .service--featured { border-color: var(--accent); }
+  .service__badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: #fff; font-size: 0.7rem; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 4px 14px; border-radius: 99px; white-space: nowrap;
+  }
+  .service__meta { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .service__price { font-family: var(--font-serif); font-size: 2.4rem; margin: 0.4em 0 0.8em; }
+</style>

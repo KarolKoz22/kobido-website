@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ImagePlaceholder from '../components/ImagePlaceholder.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, certificates } from '../config/site';
+import { url } from '../utils/url';
+
+// TODO: prawdziwe liczby
+const stats = [
+  { value: '5+', label: 'lat doświadczenia' },
+  { value: '1000+', label: 'wykonanych zabiegów' },
+  { value: certificates.length.toString(), label: 'certyfikaty i szkolenia' },
+];
+
+const values = [
+  { title: 'Indywidualne podejście', text: 'Każdy zabieg dopasowuję do potrzeb i kondycji Twojej skóry.' },
+  { title: 'Spokój i uważność', text: 'Bez pośpiechu. Godzina, w której liczysz się tylko Ty.' },
+  { title: 'Ciągły rozwój', text: 'Regularnie doskonalę techniki na szkoleniach w Polsce i za granicą.' },
+];
+---
+
+<BaseLayout title="O mnie" description={`Poznaj ${site.owner} — certyfikowaną terapeutkę masażu Kobido.`}>
+  <!-- INTRO -->
+  <section class="section">
+    <div class="container grid grid--2">
+      <ImagePlaceholder label={`Portret — ${site.owner}`} ratio="4 / 5" />
+      <div>
+        <span class="eyebrow">O mnie</span>
+        <h1>{site.owner}</h1>
+        <p class="lead">Certyfikowana terapeutka masażu Kobido</p>
+        <p class="muted">
+          [Miejsce na Twoją historię.] Opowiedz, jak zaczęła się Twoja przygoda z masażem — co Cię
+          do niego przyciągnęło, gdzie się uczyłaś i dlaczego wybrałaś właśnie Kobido.
+        </p>
+        <p class="muted">
+          [Drugi akapit.] Co sprawia Ci największą radość w tej pracy? Jak wygląda Twoje podejście
+          do klientek? Klientki lubią czuć, że wiedzą, do kogo przychodzą.
+        </p>
+        <p class="muted">
+          [Trzeci akapit — opcjonalnie.] Coś osobistego: pasje, wartości, cytat, który Cię prowadzi.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LICZBY -->
+  <section class="section--alt stats">
+    <div class="container stats__grid">
+      {stats.map((s) => (
+        <div>
+          <span class="stats__value">{s.value}</span>
+          <span class="stats__label">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- WARTOŚCI -->
+  <section class="section">
+    <div class="container">
+      <SectionHeading eyebrow="Jak pracuję" title="Co jest dla mnie ważne" />
+      <div class="grid grid--3">
+        {values.map((v) => (
+          <div class="value">
+            <h3>{v.title}</h3>
+            <p class="muted">{v.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTYFIKATY -->
+  <section class="section section--alt" id="certyfikaty">
+    <div class="container">
+      <SectionHeading eyebrow="Kwalifikacje" title="Certyfikaty i szkolenia">
+        <p>Ukończone kursy i szkolenia potwierdzające moje kwalifikacje.</p>
+      </SectionHeading>
+      <div class="certs">
+        {certificates.map((c) => (
+          <article class="cert">
+            {c.image ? (
+              <img src={url(c.image)} alt={`Certyfikat: ${c.title}`} loading="lazy" />
+            ) : (
+              <ImagePlaceholder label="Skan certyfikatu" ratio="4 / 3" />
+            )}
+            <div class="cert__body">
+              <span class="cert__year">{c.year}</span>
+              <h3>{c.title}</h3>
+              <p class="muted">{c.issuer}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- GABINET -->
+  <section class="section">
+    <div class="container">
+      <SectionHeading eyebrow="Gabinet" title="Tu się spotkamy">
+        <p>{site.contact.address}</p>
+      </SectionHeading>
+      <div class="gallery">
+        <ImagePlaceholder label="Gabinet — zdjęcie 1" ratio="1 / 1" />
+        <ImagePlaceholder label="Gabinet — zdjęcie 2" ratio="1 / 1" />
+        <ImagePlaceholder label="Gabinet — zdjęcie 3" ratio="1 / 1" />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Zapraszam na wizytę" />
+</BaseLayout>
+
+<style>
+  .lead { font-family: var(--font-serif); font-size: 1.5rem; font-style: italic; color: var(--accent); margin-bottom: 1.4em; }
+
+  .stats { padding-block: 56px; }
+  .stats__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px; text-align: center; }
+  .stats__value { display: block; font-family: var(--font-serif); font-size: 3.2rem; line-height: 1; color: var(--accent); }
+  .stats__label { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+
+  .value { border-top: 1px solid var(--line); padding-top: 24px; }
+
+  .certs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 24px; }
+  .cert { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .cert img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .cert :global(.ph) { border-radius: 0; }
+  .cert__body { padding: 20px 22px 8px; }
+  .cert__body h3 { font-size: 1.25rem; }
+  .cert__year { font-size: 0.75rem; letter-spacing: 0.18em; color: var(--accent); }
+
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
+</style>

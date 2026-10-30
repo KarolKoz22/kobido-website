@@ -1,0 +1,20 @@
+---
+import { site } from '../config/site';
+import { url } from '../utils/url';
+interface Props { title?: string; text?: string }
+const {
+  title = 'Podaruj sobie chwilę dla siebie',
+  text = 'Wybierz dogodny termin online lub zadzwoń — chętnie odpowiem na pytania.',
+} = Astro.props;
+---
+
+<section class="section section--alt">
+  <div class="container center narrow">
+    <h2>{title}</h2>
+    <p class="muted">{text}</p>
+    <div class="btn-row">
+      <a href={url('/rezerwacja')} class="btn">Zarezerwuj termin</a>
+      <a href={`tel:${site.contact.phoneHref}`} class="btn btn--ghost">{site.contact.phone}</a>
+    </div>
+  </div>
+</section>

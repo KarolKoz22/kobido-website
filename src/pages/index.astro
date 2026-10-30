@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ImagePlaceholder from '../components/ImagePlaceholder.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, services, testimonials } from '../config/site';
+import { url } from '../utils/url';
+
+const benefits = [
+  { title: 'Naturalny lifting', text: 'Pobudza mięśnie twarzy, poprawia owal i napięcie skóry — bez igieł i skalpela.' },
+  { title: 'Promienna cera', text: 'Lepsze ukrwienie i dotlenienie skóry przywraca jej zdrowy, świeży koloryt.' },
+  { title: 'Głęboki relaks', text: 'Rozluźnia napięcia twarzy i szczęki, redukuje stres i poprawia jakość snu.' },
+];
+
+const steps = [
+  { no: '01', title: 'Rezerwacja', text: 'Wybierasz termin online lub dzwonisz. Termin od razu trafia do kalendarza.' },
+  { no: '02', title: 'Krótki wywiad', text: 'Przed zabiegiem rozmawiamy o potrzebach Twojej skóry i ewentualnych przeciwwskazaniach.' },
+  { no: '03', title: 'Rytuał Kobido', text: 'Około godziny pełnego odprężenia. Efekt widoczny już po pierwszej wizycie.' },
+];
+---
+
+<BaseLayout>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container grid grid--2">
+      <div>
+        <span class="eyebrow">Masaż Kobido · {site.city}</span>
+        <h1>{site.tagline}</h1>
+        <p class="hero__lead muted">
+          Tradycyjny japoński masaż twarzy, który odmładza, odpręża i przywraca skórze blask.
+          Naturalnie i bez pośpiechu.
+        </p>
+        <div class="btn-row">
+          <a href={url('/rezerwacja')} class="btn">Zarezerwuj termin</a>
+          <a href="#oferta" class="btn btn--ghost">Zobacz ofertę</a>
+        </div>
+      </div>
+      <ImagePlaceholder label="Zdjęcie główne" ratio="4 / 5" />
+    </div>
+  </section>
+
+  <!-- CZYM JEST KOBIDO -->
+  <section class="section section--alt" id="kobido">
+    <div class="container">
+      <SectionHeading eyebrow="Czym jest Kobido" title="Cesarski masaż twarzy">
+        <p>
+          Kobido to ponad 500-letnia japońska technika masażu, nazywana „naturalnym liftingiem”.
+          Łączy szybkie, rytmiczne ruchy z delikatną pracą na punktach energetycznych twarzy.
+        </p>
+      </SectionHeading>
+      <div class="grid grid--3">
+        {benefits.map((b) => (
+          <div class="benefit">
+            <h3>{b.title}</h3>
+            <p class="muted">{b.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- JAK WYGLĄDA WIZYTA -->
+  <section class="section">
+    <div class="container">
+      <SectionHeading eyebrow="Jak to wygląda" title="Twoja wizyta krok po kroku" />
+      <div class="grid grid--3">
+        {steps.map((s) => (
+          <div class="step">
+            <span class="step__no">{s.no}</span>
+            <h3>{s.title}</h3>
+            <p class="muted">{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- OFERTA -->
+  <section class="section section--alt" id="oferta">
+    <div class="container">
+      <SectionHeading eyebrow="Oferta" title="Cennik zabiegów">
+        <p>Każdy zabieg zaczyna się od krótkiej konsultacji i demakijażu.</p>
+      </SectionHeading>
+      <div class="grid grid--3">
+        {services.map((service) => <ServiceCard service={service} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- O MNIE (zajawka) -->
+  <section class="section">
+    <div class="container grid grid--2">
+      <ImagePlaceholder label={`Portret — ${site.ownerFirstName}`} ratio="4 / 5" />
+      <div>
+        <span class="eyebrow">Poznajmy się</span>
+        <h2>Cześć, jestem {site.ownerFirstName}</h2>
+        <p class="muted">
+          Miejsce na krótkie przedstawienie się — 2–3 zdania o tym, kim jesteś, skąd pasja
+          do masażu Kobido i co jest dla Ciebie najważniejsze w pracy z klientkami.
+        </p>
+        <p class="muted">
+          Jestem certyfikowaną terapeutką masażu Kobido. Każdy zabieg traktuję indywidualnie.
+        </p>
+        <a href={url('/o-mnie')} class="btn btn--ghost">Więcej o mnie</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINIE -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeading eyebrow="Opinie" title="Co mówią klientki" />
+      <div class="grid grid--3">
+        {testimonials.map((t) => (
+          <figure class="card quote">
+            <blockquote>„{t.text}”</blockquote>
+            <figcaption>— {t.name}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(48px, 8vw, 96px); }
+  .hero__lead { font-size: 1.15rem; max-width: 30em; margin-bottom: 2rem; }
+
+  .benefit { text-align: center; padding-inline: 12px; }
+  .benefit h3::after {
+    content: ''; display: block; width: 32px; height: 1px;
+    background: var(--accent); margin: 16px auto 0;
+  }
+
+  .step { border-top: 1px solid var(--line); padding-top: 24px; }
+  .step__no { font-family: var(--font-serif); font-size: 2.4rem; color: var(--accent); line-height: 1; display: block; margin-bottom: 12px; }
+
+  .quote { margin: 0; }
+  .quote blockquote { margin: 0 0 1em; font-family: var(--font-serif); font-size: 1.3rem; font-style: italic; line-height: 1.5; }
+  .quote figcaption { font-size: 0.85rem; letter-spacing: 0.1em; color: var(--text-muted); }
+</style>

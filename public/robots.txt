@@ -1,0 +1,4 @@
+# Środowisko deweloperskie — blokujemy indeksowanie.
+# Przed startem produkcyjnym zmień na: Allow: /
+User-agent: *
+Disallow: /
