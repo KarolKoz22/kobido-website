@@ -1,26 +1,43 @@
 ---
 import { site } from '../config/site';
 import { url } from '../utils/url';
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const path = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
+const isActive = (href: string) => !href.includes('#') && (href === '/' ? path === '/' : path.startsWith(href));
 ---
 
 <header class="header">
   <div class="container header__inner">
-    <a href={url('/')} class="logo">{site.brand}</a>
+    <a href={url('/')} class="logo">
+      <Icon name="lotus" size={26} class="logo__mark" />
+      <span>{site.brand}</span>
+    </a>
 
-    <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav">
-      <span class="sr-only">Menu</span>
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-    </button>
+    <div class="header__actions">
+      <nav id="main-nav" class="nav">
+        <ul>
+          {site.nav.map((item) => (
+            <li>
+              <a href={url(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+        <a href={url('/rezerwacja')} class="btn nav__cta">
+          <Icon name="calendar" />
+          Zarezerwuj
+        </a>
+      </nav>
 
-    <nav id="main-nav" class="nav">
-      <ul>
-        {site.nav.map((item) => (
-          <li><a href={url(item.href)}>{item.label}</a></li>
-        ))}
-      </ul>
-      <a href={url('/rezerwacja')} class="btn nav__cta">Zarezerwuj</a>
-    </nav>
+      <ThemeToggle />
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav">
+        <span class="sr-only">Menu</span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -36,21 +53,44 @@ import { url } from '../utils/url';
   }
   .header__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
   .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     font-family: var(--font-serif);
     font-size: 1.6rem;
     text-decoration: none;
     letter-spacing: 0.02em;
   }
+  .logo :global(.logo__mark) { color: var(--accent); stroke-width: 1.2; transition: transform 0.6s ease; }
+  .logo:hover :global(.logo__mark) { transform: rotate(-8deg) scale(1.08); }
+
+  .header__actions { display: flex; align-items: center; gap: 20px; }
   .nav { display: flex; align-items: center; gap: 36px; }
   .nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
   .nav ul a {
+    position: relative;
     text-decoration: none;
     font-size: 0.92rem;
     letter-spacing: 0.04em;
     color: var(--text-muted);
     transition: color 0.2s;
   }
-  .nav ul a:hover { color: var(--text); }
+  /* hairline underline that draws in from the centre; stays for the current page */
+  .nav ul a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  .nav ul a:hover,
+  .nav ul a[aria-current='page'] { color: var(--text); }
+  .nav ul a:hover::after,
+  .nav ul a[aria-current='page']::after { transform: scaleX(1); }
   .nav__cta { padding: 10px 22px; }
 
   .nav-toggle {
@@ -63,7 +103,10 @@ import { url } from '../utils/url';
   .nav-toggle__bar { display: block; width: 24px; height: 1px; background: var(--text); margin: 6px 0; transition: transform 0.2s; }
 
   @media (max-width: 860px) {
+    .header__actions { gap: 6px; }
     .nav-toggle { display: block; }
+    .nav ul a::after { display: none; }
+    .nav ul a[aria-current='page'] { color: var(--accent); }
     .nav {
       position: fixed;
       inset: var(--header-h) 0 auto 0;

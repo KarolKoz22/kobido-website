@@ -50,8 +50,8 @@ import { videos } from '../config/site';
     border: 0;
     border-radius: 18px;
     overflow: hidden;
-    background: #e9e0d4;
-    box-shadow: 0 18px 40px -24px rgba(43, 38, 34, 0.45);
+    background: var(--ph-bg);
+    box-shadow: var(--shadow-soft);
   }
   .short__facade { position: absolute; inset: 0; padding: 0; border: 0; background: none; cursor: pointer; }
   .short__frame img {
@@ -74,7 +74,7 @@ import { videos } from '../config/site';
     display: grid;
     place-items: center;
     border-radius: 50%;
-    background: rgba(250, 247, 242, 0.88);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
     color: var(--accent);
     backdrop-filter: blur(4px);
     transition: transform 0.25s ease;

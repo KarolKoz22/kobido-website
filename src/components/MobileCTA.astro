@@ -2,11 +2,12 @@
 // Sticky bottom bar on mobile: quick call + booking.
 import { site } from '../config/site';
 import { url } from '../utils/url';
+import Icon from './Icon.astro';
 ---
 
 <div class="mobile-cta">
-  <a href={`tel:${site.contact.phoneHref}`} class="btn btn--ghost">Zadzwoń</a>
-  <a href={url('/rezerwacja')} class="btn">Zarezerwuj</a>
+  <a href={`tel:${site.contact.phoneHref}`} class="btn btn--ghost"><Icon name="phone" />Zadzwoń</a>
+  <a href={url('/rezerwacja')} class="btn"><Icon name="calendar" />Zarezerwuj</a>
 </div>
 
 <style>
@@ -20,10 +21,10 @@ import { url } from '../utils/url';
       inset: auto 0 0 0;
       z-index: 40;
       padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-      background: var(--bg);
+      background: color-mix(in srgb, var(--bg) 94%, transparent);
+      backdrop-filter: blur(8px);
       border-top: 1px solid var(--line);
     }
-    .mobile-cta .btn { padding: 12px; background-color: var(--bg); }
-    .mobile-cta .btn:last-child { background: var(--accent); }
+    .mobile-cta .btn { padding: 12px; }
   }
 </style>

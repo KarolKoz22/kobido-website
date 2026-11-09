@@ -1,49 +1,92 @@
 ---
 import { site } from '../config/site';
 import { url } from '../utils/url';
+import Icon from './Icon.astro';
+import IconBadge from './IconBadge.astro';
 const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
   <div class="container footer__grid">
     <div>
-      <p class="footer__brand">{site.brand}</p>
+      <p class="footer__brand">
+        <Icon name="lotus" size={28} class="footer__mark" />
+        {site.brand}
+      </p>
       <p class="muted">{site.tagline}</p>
+      <div class="footer__social">
+        <a href={site.social.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+          <IconBadge name="instagram" size="sm" />
+        </a>
+        <a href={site.social.facebook} target="_blank" rel="noopener" aria-label="Facebook">
+          <IconBadge name="facebook" size="sm" />
+        </a>
+      </div>
     </div>
+
     <div>
       <p class="footer__label">Kontakt</p>
-      <p>
-        <a href={`tel:${site.contact.phoneHref}`}>{site.contact.phone}</a><br />
-        <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a><br />
-        <span class="muted">{site.contact.address}</span>
-      </p>
+      <ul class="footer__list">
+        <li><a href={`tel:${site.contact.phoneHref}`}><IconBadge name="phone" size="sm" />{site.contact.phone}</a></li>
+        <li><a href={`mailto:${site.contact.email}`}><IconBadge name="mail" size="sm" />{site.contact.email}</a></li>
+        <li><span><IconBadge name="pin" size="sm" /><span class="muted">{site.contact.address}</span></span></li>
+      </ul>
     </div>
+
     <div>
-      <p class="footer__label">Na skróty</p>
-      <p>
-        <a href={url('/rezerwacja')}>Rezerwacja</a><br />
-        <a href={site.social.instagram} target="_blank" rel="noopener">Instagram</a><br />
-        <a href={site.social.facebook} target="_blank" rel="noopener">Facebook</a>
-      </p>
+      <p class="footer__label">Godziny otwarcia</p>
+      <ul class="footer__list footer__hours">
+        {site.contact.hours.map((h) => (
+          <li><Icon name="clock" size={16} /><span>{h.days}<br /><span class="muted">{h.time}</span></span></li>
+        ))}
+      </ul>
+      <a href={url('/rezerwacja')} class="footer__book">
+        Zarezerwuj online <Icon name="arrow-right" size={16} />
+      </a>
     </div>
   </div>
+
   <div class="container footer__bottom">
     <span>© {year} {site.brand}</span>
+    <span class="footer__made"><Icon name="heart" size={14} /> {site.city}</span>
     <a href={url('/polityka-prywatnosci')}>Polityka prywatności</a>
   </div>
 </footer>
 
 <style>
-  .footer { border-top: 1px solid var(--line); padding-top: 64px; font-size: 0.95rem; }
-  .footer a { text-decoration: none; }
+  .footer { border-top: 1px solid var(--line); padding-top: 64px; font-size: 0.95rem; background: var(--bg-alt); }
+  .footer a { text-decoration: none; transition: color 0.2s; }
   .footer a:hover { color: var(--accent); }
-  .footer__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
-  .footer__brand { font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 0.3em; }
-  .footer__label { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8em; }
+  .footer__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; }
+  .footer__brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 0.3em; }
+  .footer__brand :global(.footer__mark) { color: var(--accent); stroke-width: 1.2; }
+  .footer__label { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2em; }
+
+  .footer__social { display: flex; gap: 14px; margin-top: 18px; }
+  .footer__social a { display: inline-flex; padding: 3px; }
+
+  .footer__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .footer__list a,
+  .footer__list li > span { display: inline-flex; align-items: center; gap: 14px; word-break: break-word; }
+  .footer__list :global(.ib) { margin: 3px; }
+
+  .footer__hours li { display: flex; gap: 12px; align-items: flex-start; line-height: 1.5; }
+  .footer__hours :global(.icon) { color: var(--accent); margin-top: 3px; }
+
+  .footer__book {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
+    font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+    border-bottom: 1px solid currentColor; padding-bottom: 2px;
+  }
+  .footer__book :global(.icon) { transition: transform 0.25s ease; }
+  .footer__book:hover :global(.icon) { transform: translateX(3px); }
+
   .footer__bottom {
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
     margin-top: 48px; padding-block: 24px; border-top: 1px solid var(--line);
     font-size: 0.85rem; color: var(--text-muted);
   }
+  .footer__made { display: inline-flex; align-items: center; gap: 6px; }
+  .footer__made :global(.icon) { color: var(--accent); }
   @media (max-width: 860px) { .footer { padding-bottom: 72px; } }
 </style>

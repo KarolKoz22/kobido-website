@@ -7,17 +7,20 @@ import CtaBand from '../components/CtaBand.astro';
 import ShortsGallery from '../components/ShortsGallery.astro';
 import { site, services, testimonials } from '../config/site';
 import { url } from '../utils/url';
+import Icon from '../components/Icon.astro';
+import IconBadge from '../components/IconBadge.astro';
+import type { IconName } from '../utils/icons';
 
-const benefits = [
-  { title: 'Naturalny lifting', text: 'Pobudza mięśnie twarzy, poprawia owal i napięcie skóry — bez igieł i skalpela.' },
-  { title: 'Promienna cera', text: 'Lepsze ukrwienie i dotlenienie skóry przywraca jej zdrowy, świeży koloryt.' },
-  { title: 'Głęboki relaks', text: 'Rozluźnia napięcia twarzy i szczęki, redukuje stres i poprawia jakość snu.' },
+const benefits: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'sparkle', title: 'Naturalny lifting', text: 'Pobudza mięśnie twarzy, poprawia owal i napięcie skóry — bez igieł i skalpela.' },
+  { icon: 'drop', title: 'Promienna cera', text: 'Lepsze ukrwienie i dotlenienie skóry przywraca jej zdrowy, świeży koloryt.' },
+  { icon: 'lotus', title: 'Głęboki relaks', text: 'Rozluźnia napięcia twarzy i szczęki, redukuje stres i poprawia jakość snu.' },
 ];
 
-const steps = [
-  { no: '01', title: 'Rezerwacja', text: 'Wybierasz termin online lub dzwonisz. Termin od razu trafia do kalendarza.' },
-  { no: '02', title: 'Krótki wywiad', text: 'Przed zabiegiem rozmawiamy o potrzebach Twojej skóry i ewentualnych przeciwwskazaniach.' },
-  { no: '03', title: 'Rytuał Kobido', text: 'Około godziny pełnego odprężenia. Efekt widoczny już po pierwszej wizycie.' },
+const steps: { icon: IconName; no: string; title: string; text: string }[] = [
+  { icon: 'calendar-check', no: '01', title: 'Rezerwacja', text: 'Wybierasz termin online lub dzwonisz. Termin od razu trafia do kalendarza.' },
+  { icon: 'chat', no: '02', title: 'Krótki wywiad', text: 'Przed zabiegiem rozmawiamy o potrzebach Twojej skóry i ewentualnych przeciwwskazaniach.' },
+  { icon: 'hand', no: '03', title: 'Rytuał Kobido', text: 'Około godziny pełnego odprężenia. Efekt widoczny już po pierwszej wizycie.' },
 ];
 ---
 
@@ -33,9 +36,14 @@ const steps = [
           Naturalnie i bez pośpiechu.
         </p>
         <div class="btn-row">
-          <a href={url('/rezerwacja')} class="btn">Zarezerwuj termin</a>
-          <a href="#oferta" class="btn btn--ghost">Zobacz ofertę</a>
+          <a href={url('/rezerwacja')} class="btn"><Icon name="calendar" />Zarezerwuj termin</a>
+          <a href="#oferta" class="btn btn--ghost">Zobacz ofertę <Icon name="arrow-right" class="icon--nudge" /></a>
         </div>
+        <ul class="hero__facts">
+          <li class="icon-line"><Icon name="clock" size={18} />{services[0].duration} rytuału</li>
+          <li class="icon-line"><Icon name="pin" size={18} />{site.city}</li>
+          <li class="icon-line"><Icon name="calendar-check" size={18} />Rezerwacja online</li>
+        </ul>
       </div>
       <ImagePlaceholder src={site.ownerPhoto} alt={site.owner} ratio="4 / 5" position="50% 30%" />
     </div>
@@ -52,7 +60,8 @@ const steps = [
       </SectionHeading>
       <div class="grid grid--3">
         {benefits.map((b) => (
-          <div class="benefit">
+          <div class="benefit hover-group">
+            <IconBadge name={b.icon} size="lg" />
             <h3>{b.title}</h3>
             <p class="muted">{b.text}</p>
           </div>
@@ -80,8 +89,11 @@ const steps = [
       <SectionHeading eyebrow="Jak to wygląda" title="Twoja wizyta krok po kroku" />
       <div class="grid grid--3">
         {steps.map((s) => (
-          <div class="step">
-            <span class="step__no">{s.no}</span>
+          <div class="step hover-group">
+            <div class="step__head">
+              <span class="step__no">{s.no}</span>
+              <IconBadge name={s.icon} />
+            </div>
             <h3>{s.title}</h3>
             <p class="muted">{s.text}</p>
           </div>
@@ -117,7 +129,7 @@ const steps = [
           Jestem certyfikowaną terapeutką masażu Kobido. Zapraszam Cię do mojego gabinetu
           w Sosnowcu na godzinę tylko dla siebie.
         </p>
-        <a href={url('/o-mnie')} class="btn btn--ghost">Więcej o mnie</a>
+        <a href={url('/o-mnie')} class="btn btn--ghost">Więcej o mnie <Icon name="arrow-right" class="icon--nudge" /></a>
       </div>
     </div>
   </section>
@@ -129,8 +141,9 @@ const steps = [
       <div class="grid grid--3">
         {testimonials.map((t) => (
           <figure class="card quote">
+            <Icon name="quote" size={30} class="quote__mark" />
             <blockquote>„{t.text}”</blockquote>
-            <figcaption>— {t.name}</figcaption>
+            <figcaption><span class="quote__avatar"><Icon name="user" size={16} /></span>{t.name}</figcaption>
           </figure>
         ))}
       </div>
@@ -143,8 +156,13 @@ const steps = [
 <style>
   .hero { padding-block: clamp(48px, 8vw, 96px); }
   .hero__lead { font-size: 1.15rem; max-width: 30em; margin-bottom: 2rem; }
+  .hero__facts {
+    display: flex; flex-wrap: wrap; gap: 10px 26px; list-style: none; margin: 32px 0 0; padding: 22px 0 0;
+    border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--text-muted);
+  }
 
   .benefit { text-align: center; padding-inline: 12px; }
+  .benefit :global(.ib) { margin-bottom: 26px; }
   .benefit h3::after {
     content: ''; display: block; width: 32px; height: 1px;
     background: var(--accent); margin: 16px auto 0;
@@ -153,10 +171,24 @@ const steps = [
   .services { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; }
   .services > :global(*) { flex: 0 1 380px; }
 
-  .step { border-top: 1px solid var(--line); padding-top: 24px; }
-  .step__no { font-family: var(--font-serif); font-size: 2.4rem; color: var(--accent); line-height: 1; display: block; margin-bottom: 12px; }
+  .step { border-top: 1px solid var(--line); padding-top: 24px; position: relative; }
+  /* accent segment that grows along the top border on hover */
+  .step::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 48px; height: 1px; background: var(--accent);
+    transition: width 0.5s ease;
+  }
+  .step:hover::before { width: 100%; }
+  .step__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .step__no { font-family: var(--font-serif); font-size: 2.4rem; color: var(--accent); line-height: 1; display: block; }
+  .step__head :global(.ib) { margin: 5px; }
 
-  .quote { margin: 0; }
+  .quote { margin: 0; position: relative; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .quote:hover { transform: translateY(-3px); box-shadow: var(--shadow-soft); }
+  .quote :global(.quote__mark) { color: var(--accent); opacity: 0.45; stroke-width: 1.2; margin-bottom: 14px; display: block; }
+  .quote__avatar {
+    display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent); margin-right: 10px; vertical-align: middle;
+  }
   .quote blockquote { margin: 0 0 1em; font-family: var(--font-serif); font-size: 1.3rem; font-style: italic; line-height: 1.5; }
   .quote figcaption { font-size: 0.85rem; letter-spacing: 0.1em; color: var(--text-muted); }
 </style>

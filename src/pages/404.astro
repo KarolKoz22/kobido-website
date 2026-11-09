@@ -1,15 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { url } from '../utils/url';
+import Icon from '../components/Icon.astro';
 ---
 
 <BaseLayout title="Nie znaleziono strony">
   <section class="section">
     <div class="container center narrow">
+      <div class="ornament"><Icon name="leaf" size={30} /></div>
       <span class="eyebrow">404</span>
       <h1>Nie znaleziono strony</h1>
       <p class="muted">Strona, której szukasz, nie istnieje lub została przeniesiona.</p>
-      <a href={url('/')} class="btn">Wróć na stronę główną</a>
+      <div class="btn-row">
+        <a href={url('/')} class="btn">Wróć na stronę główną <Icon name="arrow-right" class="icon--nudge" /></a>
+      </div>
     </div>
   </section>
 </BaseLayout>

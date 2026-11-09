@@ -62,6 +62,7 @@ export type Service = {
   duration: string;
   price: string;
   description: string;
+  includes?: string[]; // short checklist shown on the pricing card
   featured?: boolean;
 };
 
@@ -72,6 +73,7 @@ export const services: Service[] = [
     price: '150 zł',
     description:
       'Pełny rytuał Kobido: twarz, szyja i dekolt. Naturalny lifting, rozluźnienie napięć i promienna cera — już po pierwszej wizycie.',
+    includes: ['Krótka konsultacja i demakijaż', 'Masaż twarzy, szyi i dekoltu', 'Efekt widoczny po pierwszej wizycie'],
   },
 ];
 

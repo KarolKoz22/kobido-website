@@ -5,9 +5,17 @@
   --surface: #ffffff;
   --text: #2b2622;
   --text-muted: #6f655c;
-  --accent: #8a6a52;
+  --accent: #8a6a52; /* text, icons, borders */
   --accent-dark: #6e5340;
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, var(--surface)); /* icon tiles, hover fills */
+  --btn-bg: #8a6a52; /* filled buttons */
+  --btn-bg-hover: #6e5340;
+  --on-accent: #ffffff; /* text on filled buttons */
   --line: #e4dbcf;
+  --ph-bg: #e9e0d4; /* photo / video placeholders */
+  --shadow-soft: 0 18px 40px -24px rgba(43, 38, 34, 0.45);
+  --photo-filter: sepia(0.18) contrast(0.96);
+  --map-filter: grayscale(0.4);
 
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Jost', system-ui, -apple-system, sans-serif;
@@ -15,6 +23,49 @@
   --container: 1120px;
   --radius: 4px;
   --header-h: 72px;
+
+  color-scheme: light;
+}
+
+/* ===== Dark theme ("espresso"): follows the OS unless the visitor picked one (data-theme on <html>) =====
+   Kept in sync in both blocks below. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #171310;
+    --bg-alt: #1f1915;
+    --surface: #251e19;
+    --text: #efe7dd;
+    --text-muted: #b5a899;
+    --accent: #cfa889;
+    --accent-dark: #e2c2a6;
+    --btn-bg: #cfa889;
+    --btn-bg-hover: #e2c2a6;
+    --on-accent: #1c1612;
+    --line: #3a3029;
+    --ph-bg: #2c241e;
+    --shadow-soft: 0 18px 40px -24px rgba(0, 0, 0, 0.8);
+    --photo-filter: sepia(0.18) contrast(0.96) brightness(0.9);
+    --map-filter: grayscale(0.5) invert(0.9) hue-rotate(180deg) brightness(0.95);
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #171310;
+  --bg-alt: #1f1915;
+  --surface: #251e19;
+  --text: #efe7dd;
+  --text-muted: #b5a899;
+  --accent: #cfa889;
+  --accent-dark: #e2c2a6;
+  --btn-bg: #cfa889;
+  --btn-bg-hover: #e2c2a6;
+  --on-accent: #1c1612;
+  --line: #3a3029;
+  --ph-bg: #2c241e;
+  --shadow-soft: 0 18px 40px -24px rgba(0, 0, 0, 0.8);
+  --photo-filter: sepia(0.18) contrast(0.96) brightness(0.9);
+  --map-filter: grayscale(0.5) invert(0.9) hue-rotate(180deg) brightness(0.95);
+  color-scheme: dark;
 }
 
 *,
@@ -82,10 +133,10 @@ p { margin: 0 0 1em; }
   justify-content: center;
   gap: 0.5em;
   padding: 14px 30px;
-  border: 1px solid var(--accent);
+  border: 1px solid var(--btn-bg);
   border-radius: var(--radius);
-  background: var(--accent);
-  color: #fff;
+  background: var(--btn-bg);
+  color: var(--on-accent);
   font: inherit;
   font-weight: 400;
   font-size: 0.9rem;
@@ -95,9 +146,12 @@ p { margin: 0 0 1em; }
   cursor: pointer;
   transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
-.btn:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
-.btn--ghost { background: transparent; color: var(--accent); }
-.btn--ghost:hover { background: var(--accent); color: #fff; }
+.btn:hover { background: var(--btn-bg-hover); border-color: var(--btn-bg-hover); }
+.btn--ghost { background: transparent; color: var(--accent); border-color: var(--accent); }
+.btn--ghost:hover { background: var(--btn-bg); border-color: var(--btn-bg); color: var(--on-accent); }
+/* icon inside a button: arrow nudges forward on hover */
+.btn .icon { width: 1.15em; height: 1.15em; vertical-align: 0; transition: transform 0.25s ease; }
+.btn:hover .icon--nudge { transform: translateX(3px); }
 .btn-row { display: flex; flex-wrap: wrap; gap: 14px; }
 .center .btn-row { justify-content: center; }
 
@@ -108,6 +162,26 @@ p { margin: 0 0 1em; }
   border-radius: var(--radius);
   padding: 36px 30px;
 }
+
+/* small icon + text row, e.g. "◷ 60 min" */
+.icon-line { display: inline-flex; align-items: center; gap: 0.5em; }
+.icon-line .icon { color: var(--accent); }
+
+/* ornamental divider: line · lotus · line */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--accent);
+  margin: 0 auto 1.2rem;
+}
+.ornament::before,
+.ornament::after { content: ''; width: 40px; height: 1px; background: currentColor; opacity: 0.5; }
+
+body,
+.header,
+.card { transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
 
 /* ===== Accessibility ===== */
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

@@ -6,11 +6,14 @@ import CtaBand from '../components/CtaBand.astro';
 import MotifMarquee from '../components/MotifMarquee.astro';
 import { site, certificates } from '../config/site';
 import { url } from '../utils/url';
+import Icon from '../components/Icon.astro';
+import IconBadge from '../components/IconBadge.astro';
+import type { IconName } from '../utils/icons';
 
-const values = [
-  { title: 'Indywidualne podejście', text: 'Każdy zabieg dopasowuję do potrzeb i kondycji Twojej skóry.' },
-  { title: 'Spokój i uważność', text: 'Bez pośpiechu. Godzina, w której liczysz się tylko Ty.' },
-  { title: 'Pasja, nie rutyna', text: 'Robię to, co kocham — i wierzę, że czujesz to w każdym ruchu dłoni.' },
+const values: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'face', title: 'Indywidualne podejście', text: 'Każdy zabieg dopasowuję do potrzeb i kondycji Twojej skóry.' },
+  { icon: 'leaf', title: 'Spokój i uważność', text: 'Bez pośpiechu. Godzina, w której liczysz się tylko Ty.' },
+  { icon: 'heart', title: 'Pasja, nie rutyna', text: 'Robię to, co kocham — i wierzę, że czujesz to w każdym ruchu dłoni.' },
 ];
 ---
 
@@ -22,7 +25,7 @@ const values = [
       <div>
         <span class="eyebrow">O mnie</span>
         <h1>{site.owner}</h1>
-        <p class="lead">Certyfikowana terapeutka masażu Kobido</p>
+        <p class="lead"><Icon name="award" size={24} />Certyfikowana terapeutka masażu Kobido</p>
         <p class="muted">
           Od zawsze wierzyłam, że dbanie o siebie to nie luksus, tylko codzienny gest czułości
           wobec samej siebie. Pielęgnacja, chwila ciszy, dobry masaż — to były moje małe rytuały,
@@ -39,7 +42,7 @@ const values = [
           w której nic nie musisz — wystarczy, że się położysz, odetchniesz i pozwolisz sobie
           na chwilę tylko dla siebie.
         </p>
-        <p class="quote">„Piękno zaczyna się w chwili, gdy zaczynasz o siebie dbać.”</p>
+        <p class="quote"><Icon name="quote" size={22} class="quote__mark" />„Piękno zaczyna się w chwili, gdy zaczynasz o siebie dbać.”</p>
       </div>
     </div>
   </section>
@@ -53,7 +56,8 @@ const values = [
       <SectionHeading eyebrow="Jak pracuję" title="Co jest dla mnie ważne" />
       <div class="grid grid--3">
         {values.map((v) => (
-          <div class="value">
+          <div class="value hover-group">
+            <IconBadge name={v.icon} />
             <h3>{v.title}</h3>
             <p class="muted">{v.text}</p>
           </div>
@@ -70,13 +74,14 @@ const values = [
       </SectionHeading>
       <div class="certs">
         {certificates.map((c) => (
-          <article class="cert">
+          <article class="cert hover-group">
             {c.image ? (
               <img src={url(c.image)} alt={`Certyfikat: ${c.title}`} loading="lazy" />
             ) : (
               <ImagePlaceholder label="Skan certyfikatu" ratio="4 / 3" />
             )}
             <div class="cert__body">
+              <IconBadge name="award" size="sm" />
               {c.year && <span class="cert__year">{c.year}</span>}
               <h3>{c.title}</h3>
               {c.issuer && <p class="muted">{c.issuer}</p>}
@@ -91,20 +96,25 @@ const values = [
 </BaseLayout>
 
 <style>
-  .lead { font-family: var(--font-serif); font-size: 1.5rem; font-style: italic; color: var(--accent); margin-bottom: 1.4em; }
+  .lead { display: flex; align-items: center; gap: 12px; font-family: var(--font-serif); font-size: 1.5rem; font-style: italic; color: var(--accent); margin-bottom: 1.4em; }
+  .lead :global(.icon) { stroke-width: 1.3; }
+  .quote :global(.quote__mark) { display: block; color: var(--accent); opacity: 0.5; margin-bottom: 8px; stroke-width: 1.2; }
 
   .quote {
     font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; color: var(--text);
     border-left: 2px solid var(--accent); padding-left: 18px; margin-top: 1.6em;
   }
 
-  .value { border-top: 1px solid var(--line); padding-top: 24px; }
+  .value { border-top: 1px solid var(--line); padding-top: 28px; }
+  .value :global(.ib) { margin: 5px 5px 20px; }
 
   .certs { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; }
-  .cert { flex: 0 1 300px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .cert { flex: 0 1 300px; transition: transform 0.3s ease, box-shadow 0.3s ease; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
   .cert img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
   .cert :global(.ph) { border-radius: 0; }
-  .cert__body { padding: 20px 22px; }
+  .cert:hover { transform: translateY(-3px); box-shadow: var(--shadow-soft); }
+  .cert__body { padding: 20px 22px; position: relative; }
+  .cert__body :global(.ib) { position: absolute; right: 18px; top: -22px; background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
   .cert__body h3 { margin: 0; }
   .cert__body p { margin: 0.4em 0 0; }
   .cert__body h3 { font-size: 1.25rem; }

@@ -76,6 +76,13 @@ public/
   Change the palette only via the CSS variables.
 - Copy addresses the client with informal "Ty"; the therapist speaks in first person, feminine forms
   ("jestem certyfikowaną terapeutką", "ukończyłam").
+- **Icons:** line icons live in `src/utils/icons.ts` (24×24, stroke = currentColor). Use `<Icon name>` inline
+  (buttons, small rows) or `<IconBadge name size>` for round tiles; a tile animates when its parent `<a>` or
+  `.hover-group` is hovered. Add new icons to `icons.ts` — never inline ad-hoc SVGs in pages.
+- **Light/dark theme:** colours are CSS tokens in `global.css`, with the dark ("espresso") palette defined twice
+  (OS `prefers-color-scheme` block + `[data-theme='dark']`) — keep both in sync. Never hard-code colours in
+  components; use tokens (`--accent-soft`, `--btn-bg`, `--on-accent`, `--ph-bg`, `--shadow-soft`…).
+  `ThemeToggle` saves the choice in localStorage; the inline script in `BaseLayout` applies it before paint.
 - New page = new file in `src/pages/`, wrap in `<BaseLayout title="...">`, add to `site.nav` if needed.
 
 ## Rezerwacje / Google Calendar

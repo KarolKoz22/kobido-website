@@ -10,6 +10,8 @@
  * Empty site.bookingUrl → phone-only fallback. Setup: see CLAUDE.md.
  */
 import { site, services } from '../config/site';
+import Icon from './Icon.astro';
+import IconBadge from './IconBadge.astro';
 
 const hasBooking = site.bookingUrl.length > 0;
 // Full-page booking view looks better without the embed flag.
@@ -19,10 +21,11 @@ const service = services[0];
 
 {!hasBooking ? (
   <div class="booking booking--empty card">
+    <IconBadge name="calendar" size="lg" />
     <span class="eyebrow">Wkrótce</span>
     <h3>Tutaj pojawi się kalendarz rezerwacji</h3>
     <p class="muted">Do tego czasu zapraszam do rezerwacji telefonicznej:</p>
-    <a href={`tel:${site.contact.phoneHref}`} class="btn">{site.contact.phone}</a>
+    <a href={`tel:${site.contact.phoneHref}`} class="btn"><Icon name="phone" />{site.contact.phone}</a>
   </div>
 ) : site.bookingMode === 'embed' ? (
   <div class="booking">
@@ -34,23 +37,25 @@ const service = services[0];
       <span class="eyebrow">Zabieg</span>
       <h3>{service.name}</h3>
       <dl class="booking__facts">
-        <div><dt>Czas</dt><dd>{service.duration}</dd></div>
-        <div><dt>Cena</dt><dd>{service.price}</dd></div>
-        <div><dt>Miejsce</dt><dd>{site.contact.address}</dd></div>
+        <div><dt><Icon name="clock" size={16} />Czas</dt><dd>{service.duration}</dd></div>
+        <div><dt><Icon name="wallet" size={16} />Cena</dt><dd>{service.price}</dd></div>
+        <div><dt><Icon name="pin" size={16} />Miejsce</dt><dd>{site.contact.address}</dd></div>
       </dl>
     </div>
 
     <div class="booking__action">
       <ol class="booking__steps">
-        <li>Kliknij „Wybierz termin” — otworzy się kalendarz z wolnymi godzinami.</li>
-        <li>Wybierz dzień i godzinę, podaj imię, e-mail i telefon.</li>
-        <li>Potwierdzenie dostaniesz od razu na maila.</li>
+        <li><IconBadge name="calendar" size="sm" /><span>Kliknij „Wybierz termin” — otworzy się kalendarz z wolnymi godzinami.</span></li>
+        <li><IconBadge name="user" size="sm" /><span>Wybierz dzień i godzinę, podaj imię, e-mail i telefon.</span></li>
+        <li><IconBadge name="mail" size="sm" /><span>Potwierdzenie dostaniesz od razu na maila.</span></li>
       </ol>
       <a href={bookingPageUrl} target="_blank" rel="noopener" class="btn booking__btn">
+        <Icon name="calendar-check" />
         Wybierz termin
+        <Icon name="external" size={15} class="booking__ext" />
       </a>
       <p class="booking__alt muted">
-        lub zadzwoń: <a href={`tel:${site.contact.phoneHref}`}>{site.contact.phone}</a>
+        lub zadzwoń: <a href={`tel:${site.contact.phoneHref}`} class="icon-line"><Icon name="phone" size={16} />{site.contact.phone}</a>
       </p>
     </div>
   </div>
@@ -60,6 +65,7 @@ const service = services[0];
   .booking { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
   .booking iframe { display: block; width: 100%; height: 760px; border: 0; }
   .booking--empty { text-align: center; padding: clamp(40px, 8vw, 80px) 24px; }
+  .booking--empty :global(.ib) { margin-bottom: 20px; }
 
   .booking--card { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
   .booking__service,
@@ -68,13 +74,22 @@ const service = services[0];
   .booking__service h3 { font-size: 2rem; margin-bottom: 1.2em; }
   .booking__facts { margin: 0; display: grid; gap: 14px; }
   .booking__facts div { display: grid; grid-template-columns: 90px 1fr; gap: 12px; border-top: 1px solid var(--line); padding-top: 14px; }
-  .booking__facts dt { font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); padding-top: 3px; }
+  .booking__facts div { grid-template-columns: 110px 1fr; }
+  .booking__facts dt { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); padding-top: 3px; align-self: start; }
   .booking__facts dd { margin: 0; }
 
   .booking__action { display: flex; flex-direction: column; justify-content: center; }
-  .booking__steps { margin: 0 0 28px; padding-left: 1.2em; color: var(--text-muted); }
-  .booking__steps li { margin-bottom: 0.6em; padding-left: 0.3em; }
-  .booking__steps li::marker { font-family: var(--font-serif); color: var(--accent); }
+  .booking__steps { list-style: none; margin: 0 0 28px; padding: 0; color: var(--text-muted); display: grid; gap: 16px; position: relative; }
+  .booking__steps li { display: flex; align-items: center; gap: 16px; position: relative; }
+  .booking__steps :global(.ib) { margin: 3px; }
+  /* dotted thread joining the step badges */
+  .booking__steps li:not(:last-child)::after {
+    content: ''; position: absolute; left: 22px; top: 46px; height: calc(100% - 30px);
+    border-left: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  .booking__btn :global(.booking__ext) { opacity: 0.7; }
+  .booking__alt a { text-decoration: none; }
+  .booking__alt a:hover { color: var(--accent); }
   .booking__btn { width: 100%; padding-block: 18px; }
-  .booking__alt { text-align: center; margin: 14px 0 0; font-size: 0.95rem; }
+  .booking__alt { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 6px; margin: 14px 0 0; font-size: 0.95rem; }
 </style>

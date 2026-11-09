@@ -1,28 +1,52 @@
 ---
 import type { Service } from '../config/site';
 import { url } from '../utils/url';
+import Icon from './Icon.astro';
+import IconBadge from './IconBadge.astro';
 interface Props { service: Service }
 const { service } = Astro.props;
 ---
 
-<article class:list={['card', 'service', { 'service--featured': service.featured }]}>
+<article class:list={['card', 'service', 'hover-group', { 'service--featured': service.featured }]}>
   {service.featured && <span class="service__badge">Najczęściej wybierany</span>}
+  <IconBadge name="face" size="lg" />
   <h3>{service.name}</h3>
-  <p class="service__meta">{service.duration}</p>
+  <p class="service__meta icon-line"><Icon name="clock" size={16} />{service.duration}</p>
   <p class="muted">{service.description}</p>
+  {service.includes && (
+    <ul class="service__includes">
+      {service.includes.map((item) => (
+        <li><Icon name="check" size={16} />{item}</li>
+      ))}
+    </ul>
+  )}
   <p class="service__price">{service.price}</p>
-  <a href={url('/rezerwacja')} class:list={['btn', { 'btn--ghost': !service.featured }]}>Zarezerwuj</a>
+  <a href={url('/rezerwacja')} class:list={['btn', { 'btn--ghost': !service.featured }]}>
+    Zarezerwuj <Icon name="arrow-right" class="icon--nudge" />
+  </a>
 </article>
 
 <style>
-  .service { position: relative; display: flex; flex-direction: column; text-align: center; }
-  .service .muted { flex: 1; }
+  .service {
+    position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .service:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); box-shadow: var(--shadow-soft); transform: translateY(-3px); }
+  .service :global(.ib) { margin-bottom: 22px; }
+  .service > .muted { flex: 1; }
   .service--featured { border-color: var(--accent); }
   .service__badge {
     position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-    background: var(--accent); color: #fff; font-size: 0.7rem; letter-spacing: 0.15em;
+    background: var(--btn-bg); color: var(--on-accent); font-size: 0.7rem; letter-spacing: 0.15em;
     text-transform: uppercase; padding: 4px 14px; border-radius: 99px; white-space: nowrap;
   }
   .service__meta { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .service__includes {
+    list-style: none; margin: 0 0 0.5em; padding: 18px 0 0; border-top: 1px solid var(--line);
+    display: grid; gap: 8px; text-align: left; font-size: 0.95rem; width: 100%;
+  }
+  .service__includes li { display: flex; gap: 10px; align-items: baseline; }
+  .service__includes :global(.icon) { color: var(--accent); flex: none; transform: translateY(2px); }
   .service__price { font-family: var(--font-serif); font-size: 2.4rem; margin: 0.4em 0 0.8em; }
+  .service .btn { align-self: stretch; }
 </style>

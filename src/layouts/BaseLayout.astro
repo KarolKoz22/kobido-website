@@ -27,6 +27,37 @@ const fullTitle = title ? `${title} | ${site.brand}` : `${site.brand} — ${site
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="pl_PL" />
+    <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#171310" media="(prefers-color-scheme: dark)" />
+    <!--
+      Theme bootstrap: applies the saved choice before first paint (no flash of the wrong theme),
+      and re-applies it when a page comes back from the back/forward cache or is changed in another tab.
+    -->
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const read = () => {
+          try {
+            const theme = localStorage.getItem('theme');
+            return theme === 'light' || theme === 'dark' ? theme : null;
+          } catch {
+            return null;
+          }
+        };
+        const apply = (theme = read()) => {
+          if (theme) root.dataset.theme = theme;
+          else delete root.dataset.theme;
+          document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+            const dark = theme ? theme === 'dark' : meta.media.includes('dark');
+            meta.setAttribute('content', dark ? '#171310' : '#faf7f2');
+          });
+        };
+        window.applyTheme = apply;
+        apply();
+        addEventListener('pageshow', (e) => e.persisted && apply());
+        addEventListener('storage', (e) => e.key === 'theme' && apply());
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

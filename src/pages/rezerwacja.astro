@@ -3,11 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import BookingEmbed from '../components/BookingEmbed.astro';
 import { site } from '../config/site';
+import Icon from '../components/Icon.astro';
+import IconBadge from '../components/IconBadge.astro';
+import type { IconName } from '../utils/icons';
 
-const info = [
-  { title: 'Przed wizytą', text: 'Ubierz się luźno, z łatwym dostępem do szyi i dekoltu. Makijaż zmyję przed zabiegiem. Zabierz dobry humor!' },
-  { title: 'Odwołanie wizyty', text: 'Prosimy o odwołanie wizyty najpóźniej 24 h wcześniej — link znajdziesz w mailu z potwierdzeniem.' },
-  { title: 'Przeciwwskazania', text: 'M.in. stany zapalne skóry, świeże zabiegi medycyny estetycznej, gorączka. W razie wątpliwości — zadzwoń.' },
+const info: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'shirt', title: 'Przed wizytą', text: 'Ubierz się luźno, z łatwym dostępem do szyi i dekoltu. Makijaż zmyję przed zabiegiem. Zabierz dobry humor!' },
+  { icon: 'calendar-x', title: 'Odwołanie wizyty', text: 'Prosimy o odwołanie wizyty najpóźniej 24 h wcześniej — link znajdziesz w mailu z potwierdzeniem.' },
+  { icon: 'shield', title: 'Przeciwwskazania', text: 'M.in. stany zapalne skóry, świeże zabiegi medycyny estetycznej, gorączka. W razie wątpliwości — zadzwoń.' },
 ];
 ---
 
@@ -17,7 +20,7 @@ const info = [
       <SectionHeading eyebrow="Rezerwacja" title="Wybierz dogodny termin">
         <p>
           Rezerwacja zajmuje minutę — potwierdzenie otrzymasz mailem.
-          Wolisz porozmawiać? Zadzwoń: <a href={`tel:${site.contact.phoneHref}`}>{site.contact.phone}</a>
+          Wolisz porozmawiać? Zadzwoń: <a href={`tel:${site.contact.phoneHref}`} class="icon-line"><Icon name="phone" size={16} />{site.contact.phone}</a>
         </p>
       </SectionHeading>
 
@@ -27,7 +30,8 @@ const info = [
 
       <div class="grid grid--3 info">
         {info.map((i) => (
-          <div>
+          <div class="hover-group">
+            <IconBadge name={i.icon} />
             <h3>{i.title}</h3>
             <p class="muted">{i.text}</p>
           </div>
@@ -40,6 +44,7 @@ const info = [
 <style>
   .narrow-wide { max-width: 900px; margin-inline: auto; }
   .info { margin-top: 72px; }
-  .info > div { border-top: 1px solid var(--line); padding-top: 24px; }
+  .info > div { border-top: 1px solid var(--line); padding-top: 28px; }
+  .info :global(.ib) { margin: 5px 5px 18px; }
   .info h3 { font-size: 1.3rem; }
 </style>

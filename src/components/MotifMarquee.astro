@@ -8,22 +8,9 @@ interface Props {
 }
 const { reverse = false } = Astro.props;
 
-// 24×24 line icons, drawn with currentColor strokes.
-const icons: Record<string, string> = {
-  lotus:
-    '<path d="M12 20c-4.5 0-8.5-3-8.5-7.5 3.2 0 6.3 2 8.5 5 2.2-3 5.3-5 8.5-5 0 4.5-4 7.5-8.5 7.5z"/><path d="M12 17.5c-2.2-3.2-2.2-7.8 0-12 2.2 4.2 2.2 8.8 0 12z"/>',
-  leaf: '<path d="M5 19C5 10.5 10 5 19 5c0 9-5.5 14-14 14z"/><path d="M5 19l8.5-8.5"/>',
-  drop: '<path d="M12 3.5c-3.8 4.7-6 8-6 10.8a6 6 0 0 0 12 0c0-2.8-2.2-6.1-6-10.8z"/><path d="M9.2 14.5a2.8 2.8 0 0 0 2.3 2.6"/>',
-  sakura:
-    '<g transform="translate(12 12)"><ellipse rx="2.6" ry="4.6" cy="-4.8"/><ellipse rx="2.6" ry="4.6" cy="-4.8" transform="rotate(72)"/><ellipse rx="2.6" ry="4.6" cy="-4.8" transform="rotate(144)"/><ellipse rx="2.6" ry="4.6" cy="-4.8" transform="rotate(216)"/><ellipse rx="2.6" ry="4.6" cy="-4.8" transform="rotate(288)"/><circle r="1.2"/></g>',
-  stones:
-    '<ellipse cx="12" cy="18.5" rx="7.5" ry="2.5"/><ellipse cx="12" cy="13.2" rx="5.3" ry="2.1"/><ellipse cx="12" cy="8.6" rx="3.3" ry="1.7"/>',
-  wave: '<path d="M2 11c3 0 3-3 6-3s3 3 6 3 3-3 6-3"/><path d="M2 16c3 0 3-3 6-3s3 3 6 3 3-3 6-3"/>',
-  sparkle: '<path d="M12 3c.8 5 4 8.2 9 9-5 .8-8.2 4-9 9-.8-5-4-8.2-9-9 5-.8 8.2-4 9-9z"/>',
-  moon: '<path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.3 6.3 0 0 0 10 10z"/>',
-};
+import { icons, type IconName } from '../utils/icons';
 
-const items = [
+const items: { icon: IconName; label: string }[] = [
   { icon: 'lotus', label: 'Relaks' },
   { icon: 'sparkle', label: 'Naturalny lifting' },
   { icon: 'sakura', label: 'Japońska tradycja' },

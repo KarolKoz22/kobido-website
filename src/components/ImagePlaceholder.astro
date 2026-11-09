@@ -38,7 +38,7 @@ const { label = 'Miejsce na zdjęcie', ratio = '4 / 5', src, alt = '', position 
     object-fit: cover;
     border-radius: var(--radius);
     /* warm tint so B&W / cool photos sit nicely on the beige palette */
-    filter: sepia(0.18) contrast(0.96);
+    filter: var(--photo-filter);
   }
   .ph {
     width: 100%;
@@ -48,8 +48,8 @@ const { label = 'Miejsce na zdjęcie', ratio = '4 / 5', src, alt = '', position 
     justify-content: center;
     gap: 10px;
     background:
-      repeating-linear-gradient(135deg, transparent 0 14px, rgba(138, 106, 82, 0.05) 14px 15px),
-      #e9e0d4;
+      repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--accent) 7%, transparent) 14px 15px),
+      var(--ph-bg);
     color: var(--accent);
     border-radius: var(--radius);
     font-size: 0.8rem;

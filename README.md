@@ -16,6 +16,10 @@ Built for a real client: a minimalist, Polish-language static site with online b
 - **Almost no JavaScript:** static output, and the only client-side script is the mobile menu toggle
 - **Privacy-friendly embeds:** YouTube Shorts load behind a click-to-play facade (`youtube-nocookie`),
   and the map is a keyless Google Maps embed
+- **Light and dark themes:** a warm "espresso" dark palette that follows the OS setting, plus a toggle
+  that remembers the visitor's choice and is applied before first paint (no flash of the wrong theme)
+- **Custom line-icon set** (`src/utils/icons.ts`) with micro-animations on hover: the phone rings,
+  the envelope opens, the map pin bounces, the clock hand turns
 - **Mobile-first:** sticky "Call / Book" bar on small screens and a responsive layout
 - **Sub-path aware:** every internal link goes through a `url()` helper, so the same build works
   on GitHub Pages (`/kobido-website/`) and on a custom domain (`/`)
