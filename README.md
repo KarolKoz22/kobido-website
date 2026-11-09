@@ -13,7 +13,7 @@ Built for a real client: a minimalist, Polish-language static site with online b
   - If no booking URL is configured, the page falls back to a phone call-to-action
 - **Single source of content:** phone, hours, pricing, certificates and testimonials all live in
   [`src/config/site.ts`](src/config/site.ts), so the client's edits never touch page markup
-- **Almost no JavaScript:** static output, and the only client-side script is the mobile menu toggle
+- **Almost no JavaScript:** static output; the only client-side scripts are tiny ones (mobile menu, theme toggle, "open today" badge)
 - **Privacy-friendly embeds:** YouTube Shorts load behind a click-to-play facade (`youtube-nocookie`),
   and the map is a keyless Google Maps embed
 - **Light and dark themes:** a warm "espresso" dark palette that follows the OS setting, plus a toggle
